@@ -82,8 +82,8 @@ echo.
 echo [INFO] Menjalankan AVENTA HFT PRO 2026...
 start "AVENTA_HFT" cmd /k python Aventa_HFT_Pro_2026_v7_3_5.py
 
-REM echo [INFO] Menjalankan TELEGRAM BOT...
-REM start "TELEGRAM_BOT" cmd /k python start_telegram_bot_manual.py
+echo [INFO] Menjalankan TELEGRAM BOT...
+start "TELEGRAM_BOT" cmd /k python start_telegram_bot_manual.py
 
 echo.
 echo ============================================================

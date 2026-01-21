@@ -194,7 +194,8 @@ class TradeDatabase:
                     SUM(profit) as total_pnl,
                     AVG(profit) as avg_profit,
                     MAX(profit) as best_trade,
-                    MIN(profit) as worst_trade
+                    MIN(profit) as worst_trade,
+                    SUM(volume) as total_volume
                 FROM trades
                 WHERE bot_id = ? 
                 AND timestamp >= ? 
@@ -218,7 +219,8 @@ class TradeDatabase:
                     'total_pnl': row[3] or 0,
                     'avg_profit':  row[4] or 0,
                     'best_trade': row[5] or 0,
-                    'worst_trade': row[6] or 0
+                    'worst_trade': row[6] or 0,
+                    'total_volume': row[7] or 0.0  # ✅ NEW: Include total volume
                 }
             
             return {}

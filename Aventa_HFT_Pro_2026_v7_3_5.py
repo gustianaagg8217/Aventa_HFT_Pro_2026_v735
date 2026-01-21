@@ -679,17 +679,19 @@ class HFTProGUI:
 
             ttk.Label(sidebar, text="🤖 Bots", font=('Segoe UI', 12, 'bold')).pack(pady=(0, 5))
 
-            # ✅ FIX: Custom Listbox with persistent selection highlight
+            # ✅ IMPROVED: Custom Listbox with PERSISTENT selection highlight across tab switches
             self.bot_listbox = tk.Listbox(
                 sidebar, 
                 height=12, 
-                font=('Segoe UI', 10, 'bold'),  # ← Bold untuk active bot
+                font=('Segoe UI', 10, 'bold'),
                 bg='#1a1e3a', 
                 fg='#e0e0e0',
-                selectbackground='#00e676',  # ← Bright green highlight
+                selectbackground='#00e676',  # ← Bright green highlight (PERSISTENT)
                 selectforeground='#000000',  # ← Black text untuk kontras
                 activestyle='none',  # ← Disable default active style
-                exportselection=False  # ✅ CRITICAL: Prevent losing selection! 
+                exportselection=False,  # ✅ CRITICAL: Prevent losing selection when focus changes!
+                relief=tk.FLAT,  # ← Cleaner appearance
+                highlightthickness=0  # ← Remove border
             )
             self.bot_listbox.pack(fill=tk.BOTH, expand=True, pady=(0, 5))
             self.bot_listbox.bind('<<ListboxSelect>>', self.on_bot_selected)
@@ -1315,8 +1317,8 @@ class HFTProGUI:
                             signals = int(snapshot.get('signals_generated', 0) or 0)
                             position_vol = float(snapshot.get('position_volume', 0) or 0)
                             
-                            # ✅ NEW: Get total lot today from risk manager's daily_volume tracker
-                            daily_volume_total = bot['risk_manager'].daily_volume if bot['risk_manager'] else 0.0
+                            # ✅ NEW: Get total lot today from risk manager's daily_volume tracker (or DB fallback)
+                            daily_volume_total = bot['risk_manager'].get_daily_volume_from_db() if bot['risk_manager'] else 0.0
                             
                             self.perf_vars['trades_today'].set(str(trades))
                             self.perf_vars['wins'].set(str(wins))
@@ -2351,6 +2353,7 @@ class HFTProGUI:
                         'daily_trades': tk.StringVar(value="0"),
                         'trades_pct': tk.StringVar(value="0.0%"),
                         'drawdown':  tk.StringVar(value="0.0%"),
+                        'max_drawdown_today': tk.StringVar(value="0.0%"),  # ✅ NEW: Max drawdown today
                         'risk_level': tk.StringVar(value="LOW"),
                     }
 
@@ -2381,6 +2384,11 @@ class HFTProGUI:
                 row4.pack(fill=tk.X, pady=2)
                 self.create_risk_metric(row4, "Current Drawdown:", self.risk_vars['drawdown'], width=15)
                 self.create_risk_metric(row4, "Risk Level:", self.risk_vars['risk_level'], width=10)
+
+                # Row 5 - ✅ NEW: Max drawdown today
+                row5 = ttk.Frame(metrics_grid)
+                row5.pack(fill=tk.X, pady=2)
+                self.create_risk_metric(row5, "Max DD Today:", self.risk_vars['max_drawdown_today'], width=15)
 
                 # === CIRCUIT BREAKER STATUS ===
                 cb_frame = ttk.LabelFrame(main_container, text="🚨 Circuit Breaker Status", padding=10)
@@ -2529,6 +2537,7 @@ class HFTProGUI:
                             self.risk_vars['trades_pct'].set(f"{trades_pct:.1f}%")
 
                             self.risk_vars['drawdown'].set(f"{metrics.max_drawdown:.2f}%")
+                            self.risk_vars['max_drawdown_today'].set(f"{metrics.max_drawdown_today:.2f}%")  # ✅ NEW: Display max drawdown today
                             self.risk_vars['risk_level'].set(metrics.risk_level)
 
                             # Update circuit breaker status
@@ -3243,9 +3252,15 @@ class HFTProGUI:
                         writer.writerow(['Initial Balance ($)', initial_balance])
                         writer.writerow([])  # Empty row for spacing
                         
+                        # Get volume from trading configuration
+                        try:
+                            volume = float(self.volume_var.get().strip())
+                        except:
+                            volume = 0.01
+                        
                         # Header
                         writer.writerow(['#', 'Entry Time', 'Exit Time', 'Type', 'Entry Price', 
-                                    'Exit Price', 'Profit', 'Saldo Awal', 'Saldo Akhir', 'Duration', 'Reason'])
+                                    'Exit Price', 'Volume', 'Profit', 'Saldo Awal', 'Saldo Akhir', 'Duration', 'Reason'])
                         
                         # Calculate running balance
                         running_balance = initial_balance
@@ -3273,6 +3288,7 @@ class HFTProGUI:
                                 trade.get('type', ''),
                                 f"{trade.get('entry_price', 0):.5f}",
                                 f"{trade.get('exit_price', 0):.5f}",
+                                f"{volume:.2f}",
                                 f"{profit:.2f}",
                                 f"{saldo_awal:.2f}",
                                 f"{saldo_akhir:.2f}",
@@ -3573,23 +3589,25 @@ class HFTProGUI:
 
 
         def on_tab_changed(self, event):
-            """Handle tab change events"""
+            """Handle tab change events - Keep active bot selected"""
             try:
                 selected_tab = event.widget.select()
                 tab_text = event.widget.tab(selected_tab, "text")
                 
-                # ✅ NEW: Keep active bot selection visible
+                # ✅ RESTORE ACTIVE BOT SELECTION (Persist across tab switches)
                 if self.active_bot_id and self.active_bot_id in self.bots:
-                    # Find index of active bot
                     try:
                         bot_list = list(self.bots.keys())
                         idx = bot_list.index(self.active_bot_id)
                         
-                        # Ensure selection stays visible
+                        # ✅ Clear and re-apply selection to ensure highlight is visible
                         self.bot_listbox.selection_clear(0, tk.END)
                         self.bot_listbox.selection_set(idx)
-                        self.bot_listbox.see(idx)
-                    except ValueError:
+                        self.bot_listbox.activate(idx)  # ← Also activate for focus
+                        self.bot_listbox.see(idx)  # ← Ensure it's visible in listbox
+                        
+                        self.log_message(f"✓ {self.active_bot_id} kept selected", "INFO")
+                    except (ValueError, tk.TclError):
                         pass
                 
                 # Build ML Models tab when first opened
@@ -4233,13 +4251,14 @@ This is a test message from Aventa HFT Pro 2026"""
 
 🕐 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"""
 
-        def format_clear_all_positions_signal(self, bot_id, closed_count, total_profit, balance=None, equity=None, free_margin=None, margin_level=None):
+        def format_clear_all_positions_signal(self, bot_id, closed_count, total_profit, balance=None, equity=None, free_margin=None, margin_level=None, total_volume_today=None):
             """Format clear all positions signal message"""
             # Format account info with N/A fallback
             balance_str = f"${balance:.2f}" if balance is not None else "N/A"
             equity_str = f"${equity:.2f}" if equity is not None else "N/A"
             free_margin_str = f"${free_margin:.2f}" if free_margin is not None else "N/A"
             margin_level_str = f"{margin_level:.2f}%" if margin_level is not None else "N/A"
+            total_volume_str = f"{total_volume_today:.2f}" if total_volume_today is not None else "N/A"
 
             return f"""🧹 **CLEANSHEET - ALL POSITIONS CLEARED**
 
@@ -4252,6 +4271,7 @@ This is a test message from Aventa HFT Pro 2026"""
 📊 Equity: {equity_str}
 🆓 Free Margin: {free_margin_str}
 📊 Margin Level: {margin_level_str}
+📊 Total Lot Today: {total_volume_str}
 
 🕐 Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
@@ -5183,6 +5203,7 @@ This is a test message from Aventa HFT Pro 2026"""
                     self.risk_vars['daily_trades'].set("0")
                     self.risk_vars['trades_pct'].set("0.0%")
                     self.risk_vars['drawdown'].set("0.0%")
+                    self.risk_vars['max_drawdown_today'].set("0.0%")  # ✅ NEW: Reset max drawdown today
                     self.risk_vars['risk_level'].set("LOW")
             except Exception as e:
                 pass
@@ -5478,6 +5499,17 @@ This is a test message from Aventa HFT Pro 2026"""
                             margin = account_info.margin
                             margin_level = (equity / margin) * 100 if margin and margin > 0 else 0
                         
+                        # Get total volume traded today
+                        try:
+                            bot = self.bots.get(self.active_bot_id)
+                            if bot and 'risk_manager' in bot:
+                                total_volume_today = bot['risk_manager'].get_daily_volume_from_db()
+                            else:
+                                total_volume_today = 0.0
+                        except Exception as e:
+                            logger.debug(f"Could not get total volume for telegram: {e}")
+                            total_volume_today = 0.0
+                        
                         self.send_telegram_signal(
                             bot_id=self.active_bot_id,
                             signal_type="clear_all_positions",
@@ -5486,7 +5518,8 @@ This is a test message from Aventa HFT Pro 2026"""
                             balance=balance,
                             equity=equity,
                             free_margin=free_margin,
-                            margin_level=margin_level
+                            margin_level=margin_level,
+                            total_volume_today=total_volume_today
                         )
                     except Exception as e:
                         self.log_message(f"Failed to send clear all positions telegram: {e}", "ERROR")

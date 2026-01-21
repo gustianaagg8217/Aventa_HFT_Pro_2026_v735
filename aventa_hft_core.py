@@ -388,20 +388,32 @@ class UltraLowLatencyEngine:
             
             # Get current account equity for daily peak reset
             current_equity = self.get_account_equity()
+            account_balance = 0.0
+            
+            # Get actual account balance from MT5
+            try:
+                account_info = mt5.account_info()
+                if account_info:
+                    account_balance = account_info.balance
+            except:
+                account_balance = 0.0
+            
             if current_equity > 0:
                 self.peak_equity = current_equity
                 logger.info(f"✓ Daily peak equity reset to current: ${self.peak_equity:.2f}")
                 
                 # ✅ FIX: Also reset risk_manager's peak_balance with current account balance
-                if self.risk_manager:
-                    account_info = mt5.account_info()
-                    if account_info:
-                        self.risk_manager.reset_daily_stats(account_info.balance)
-                        logger.info(f"✓ Risk Manager peak_balance reset to: ${account_info.balance:.2f}")
+                if self.risk_manager and account_balance > 0:
+                    self.risk_manager.reset_daily_stats(account_balance)
+                    logger.info(f"✓ Risk Manager peak_balance reset to: ${account_balance:.2f}")
             else:
                 # Fallback to initial balance if can't get current equity
                 self.peak_equity = self.bot_initial_balance
                 logger.info(f"✓ Daily peak equity reset to initial: ${self.peak_equity:.2f}")
+                # Also reset risk manager with bot initial balance
+                if self.risk_manager and self.bot_initial_balance > 0:
+                    self.risk_manager.reset_daily_stats(self.bot_initial_balance)
+                    logger.info(f"✓ Risk Manager peak_balance reset to initial: ${self.bot_initial_balance:.2f}")
             
             # Reset bot-specific daily stats
             self.bot_trades_today = 0
@@ -1934,24 +1946,38 @@ class UltraLowLatencyEngine:
         return trade_count
 
     def get_today_total_volume(self):
-        """Get total volume traded today for this bot"""
+        """Get total volume traded today for this bot - uses database fallback"""
         from datetime import datetime, time
 
-        now = datetime.now()
-        day_start = datetime.combine(now.date(), time.min)
-        deals = mt5.history_deals_get(day_start, now)
+        # Try risk_manager's database method first (most reliable)
+        if self.risk_manager:
+            try:
+                total_volume = self.risk_manager.get_daily_volume_from_db()
+                if total_volume is not None and total_volume > 0:
+                    return total_volume
+            except Exception as e:
+                logger.debug(f"Could not get volume from risk_manager DB: {e}")
 
-        if deals is None:
+        # Fallback to MT5 history deals
+        try:
+            now = datetime.now()
+            day_start = datetime.combine(now.date(), time.min)
+            deals = mt5.history_deals_get(day_start, now)
+
+            if deals is None:
+                return 0.0
+
+            total_volume = 0.0
+            magic = self.config.get('magic_number', 2026002)
+
+            for deal in deals:
+                if deal.magic == magic and deal.entry == mt5.DEAL_ENTRY_IN:
+                    total_volume += deal.volume
+
+            return total_volume
+        except Exception as e:
+            logger.error(f"Failed to get total volume from MT5 deals: {e}")
             return 0.0
-
-        total_volume = 0.0
-        magic = self.config.get('magic_number', 2026002)
-
-        for deal in deals:
-            if deal.magic == magic and deal.entry == mt5.DEAL_ENTRY_IN:
-                total_volume += deal.volume
-
-        return total_volume
 
     def get_today_trade_stats(self):
         """

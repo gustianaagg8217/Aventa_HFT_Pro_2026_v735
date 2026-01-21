@@ -30,6 +30,7 @@ class RiskMetrics:
     max_drawdown: float
     sharpe_ratio: float
     risk_level: str  # 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'
+    max_drawdown_today: float = 0.0  # ✅ NEW: Highest drawdown today
 
 
 @dataclass
@@ -71,6 +72,7 @@ class RiskManager:
         self.daily_volume = 0.0
         self.peak_balance = 0.0
         self.current_drawdown = 0.0
+        self.max_drawdown_today = 0.0  # ✅ NEW: Track highest drawdown today
         
         # Circuit breakers
         self.trading_enabled = True
@@ -95,7 +97,7 @@ class RiskManager:
         """Reset daily statistics"""
         today = datetime.now().date()
         if today > self.last_reset_date:
-            logger.info(f"Resetting daily stats. Yesterday PnL: {self.daily_pnl:.2f}")
+            logger.info(f"Resetting daily stats. Yesterday PnL: {self.daily_pnl:.2f} | Max DD: {self.max_drawdown_today:.2f}%")
             
             self.daily_pnl = 0.0
             self.daily_trades = 0
@@ -108,6 +110,7 @@ class RiskManager:
             else:
                 self.peak_balance = 0.0
             self.current_drawdown = 0.0  # Reset current drawdown
+            self.max_drawdown_today = 0.0  # ✅ NEW: Reset max drawdown for new day
             self.last_reset_date = today
             
             # Reset circuit breaker if new day
@@ -293,6 +296,18 @@ class RiskManager:
         except Exception as e:
             logger.error(f"Failed to persist trade: {e}")
     
+    def get_daily_volume_from_db(self) -> float:
+        """Get total volume for today from database (fallback if record_trade not called)"""
+        try:
+            # ✅ NEW: Calculate daily volume from database trades
+            stats = self.db.get_daily_stats(self.bot_id)
+            if stats and 'total_volume' in stats:
+                return stats['total_volume']
+            return self.daily_volume  # Fallback to tracked value
+        except Exception as e:
+            logger.debug(f"Could not get daily volume from DB: {e}")
+            return self.daily_volume
+    
     def calculate_dynamic_stop_loss(self,
                                    entry_price: float,
                                    direction: str,
@@ -391,6 +406,10 @@ class RiskManager:
             - Floating Loss: $1000 - $980 = $20
             - Current Drawdown: ($20 / $1000) * 100 = 2.0%
         """
+        # ✅ CRITICAL FIX: RESET DAILY STATS FIRST (before calculating drawdown)
+        # This ensures peak_balance is properly reset on new day
+        self.reset_daily_stats(account_balance)
+        
         # Update daily peak balance for drawdown calculation
         if self.peak_balance == 0.0:
             # Initialize peak balance at start of day
@@ -413,6 +432,10 @@ class RiskManager:
             
             # Ensure drawdown is never negative (can't have positive drawdown)
             self.current_drawdown = max(0.0, self.current_drawdown)
+            
+            # ✅ NEW: Track maximum drawdown today
+            if self.current_drawdown > self.max_drawdown_today:
+                self.max_drawdown_today = self.current_drawdown
         else:
             self.current_drawdown = 0.0
         
@@ -478,7 +501,8 @@ class RiskManager:
             profit_factor=profit_factor,
             max_drawdown=self.current_drawdown,
             sharpe_ratio=sharpe_ratio,
-            risk_level=risk_level
+            risk_level=risk_level,
+            max_drawdown_today=self.max_drawdown_today  # ✅ NEW: Include max drawdown today
         )
     
     def get_trading_summary(self) -> Dict:

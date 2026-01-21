@@ -24,3 +24,4 @@ models/
 .xml
 Backtest/
 .xlsx
+.db
