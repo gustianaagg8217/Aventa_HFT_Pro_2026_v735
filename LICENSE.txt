@@ -1,17 +1,199 @@
-Aventa HFT Pro 2026 License Agreement
+================================================================================
+AVENTA HFT PRO 2026 - END USER LICENSE AGREEMENT (EULA)
+================================================================================
 
-Copyright (c) 2025 PT. Aventa AI
+Version 7.3.5
+Release Date: January 2026
+
+Copyright (c) 2026 PT. Aventa AI. All rights reserved.
+
+================================================================================
+PERJANJIAN LISENSI PENGGUNA AKHIR
+================================================================================
+
+SILAKAN BACA PERJANJIAN LISENSI INI DENGAN CERMAT SEBELUM MENGGUNAKAN PERANGKAT LUNAK INI.
+
+Dengan melanjutkan instalasi, Anda setuju dengan seluruh syarat dan ketentuan dalam 
+perjanjian lisensi ini. Jika Anda tidak menyetujui, JANGAN lanjutkan instalasi.
+
+================================================================================
+1. PEMBERIAN LISENSI
+================================================================================
+
+Ini adalah perjanjian lisensi, bukan perjanjian penjualan. PT. Aventa AI ("Pemilik Lisensi") 
+mempertahankan semua hak, judul, dan kepentingan dalam perangkat lunak Aventa HFT Pro 2026 
+("Perangkat Lunak") dan semua salinan yang Anda buat.
+
+Pemilik Lisensi memberikan Anda lisensi terbatas, non-eksklusif, dan tidak dapat ditransfer 
+untuk menggunakan Perangkat Lunak ini sesuai dengan syarat perjanjian ini.
+
+================================================================================
+2. PENGGUNAAN YANG DIIZINKAN
+================================================================================
+
+Anda dapat:
+✓ Menginstal dan menjalankan Perangkat Lunak ini di komputer pribadi Anda
+✓ Menggunakan Perangkat Lunak untuk keperluan trading algoritmik dan backtesting
+✓ Mengakses semua indikator dan alat analisis bawaan
+✓ Mengekspor hasil trading dan laporan
+✓ Menggunakan integrasi Telegram (memerlukan kredensial API valid)
+✓ Membuat backup data untuk tujuan pemulihan
+
+================================================================================
+3. BATASAN PENGGUNAAN - DILARANG KERAS
+================================================================================
 
 DILARANG mendistribusikan, menggandakan, atau memodifikasi aplikasi ini tanpa izin tertulis dari PT. Aventa AI.
 
-Dengan melanjutkan instalasi, Anda setuju dengan syarat dan ketentuan berikut:
+Anda TIDAK BOLEH:
+✗ Menyalin, memodifikasi, atau membuat karya turunan dari Perangkat Lunak ini
+✗ Mendistribusikan, menjual, atau menyewakan Perangkat Lunak kepada pihak ketiga
+✗ Melakukan reverse engineering, dekompilasi, atau disassembly
+✗ Menghapus atau mengubah pemberitahuan kepemilikan atau label
+✗ Menggunakan Perangkat Lunak untuk trading ilegal atau manipulasi pasar
+✗ Menyewa, menyewakan, atau meminjamkan Perangkat Lunak
+✗ Menggunakan di lebih banyak komputer dari yang diizinkan oleh lisensi Anda
+✗ Membagikan lisensi dengan pengguna lain
 
-1. Lisensi ini hanya diberikan untuk penggunaan internal oleh pihak yang menerima aplikasi ini secara resmi dari PT. Aventa AI.
-2. Dilarang keras melakukan reverse engineering, dekompilasi, atau upaya lain untuk memperoleh kode sumber aplikasi ini.
-3. PT. Aventa AI tidak bertanggung jawab atas kerusakan, kehilangan data, atau kerugian lain yang timbul akibat penggunaan aplikasi ini.
-4. Segala bentuk pelanggaran terhadap ketentuan lisensi ini dapat berakibat pada tuntutan hukum sesuai peraturan yang berlaku di Indonesia.
-5. Untuk pertanyaan atau permohonan izin khusus, silakan hubungi: support@aventa-ai.com
+================================================================================
+4. DISCLAIMER GARANSI
+================================================================================
 
-Terima kasih telah menggunakan produk kami.
+PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA" TANPA GARANSI APAPUN, BAIK TERSIRAT 
+MAUPUN TERSURAT, TERMASUK NAMUN TIDAK TERBATAS PADA GARANSI UNTUK DIPERDAGANGKAN, 
+KESESUAIAN UNTUK TUJUAN TERTENTU, ATAU NON-PELANGGARAN.
 
-PT. Aventa AI
+Pemilik Lisensi tidak menjamin bahwa:
+- Perangkat Lunak akan memenuhi kebutuhan Anda
+- Perangkat Lunak akan berjalan tanpa gangguan atau bebas kesalahan
+- Setiap cacat dalam Perangkat Lunak akan diperbaiki
+- Hasil trading akan konsisten atau menguntungkan
+
+================================================================================
+5. PEMBATASAN TANGGUNG JAWAB
+================================================================================
+
+DENGAN TIDAK ADA KONDISI, PT. AVENTA AI BERTANGGUNG JAWAB ATAS KERUSAKAN TIDAK LANGSUNG, 
+INSIDENTAL, KHUSUS, KONSEKUENSIAL, ATAU PUNITIF, TERMASUK KEHILANGAN KEUNTUNGAN, DATA, 
+ATAU PENGGUNAAN, BAHKAN JIKA DIBERITAHU TENTANG KEMUNGKINAN KERUSAKAN TERSEBUT.
+
+PT. Aventa AI tidak bertanggung jawab atas:
+- Kehilangan data atau uang akibat penggunaan Perangkat Lunak
+- Kesalahan dalam perhitungan atau analisis
+- Koneksi internet yang terputus
+- Kegagalan perangkat keras komputer Anda
+- Kerugian finansial yang dihasilkan dari keputusan trading
+
+================================================================================
+6. DISCLAIMER TRADING DAN INVESTASI
+================================================================================
+
+⚠️ PENTING - BACA SEBELUM MENGGUNAKAN UNTUK TRADING ⚠️
+
+Trading dan aktivitas investasi melibatkan risiko finansial yang substansial. Performa 
+masa lalu BUKAN jaminan hasil di masa depan.
+
+- Perangkat Lunak ini dirancang untuk MEMBANTU keputusan trading, BUKAN menjamin keuntungan
+- Gunakan Perangkat Lunak HANYA dengan modal yang dapat Anda rugikan
+- Mulai dengan ukuran posisi kecil dan manajemen risiko yang tepat
+- Selalu gunakan stop loss di setiap transaksi
+- Kegagalan yang menghasilkan kerugian finansial adalah risiko Anda sendiri
+
+PT. Aventa AI TIDAK BERTANGGUNG JAWAB atas:
+- Kerugian trading atau investasi apapun
+- Performa yang lebih buruk dari ekspektasi
+- Kegagalan strategi dalam kondisi pasar tertentu
+- Keputusan trading Anda
+
+================================================================================
+7. PERSYARATAN SISTEM
+================================================================================
+
+Persyaratan Minimum:
+- Sistem Operasi: Windows 10 atau lebih baru (64-bit)
+- Prosesor: Intel i5 atau setara (2.5 GHz atau lebih cepat)
+- RAM: 4 GB minimum (8 GB direkomendasikan)
+- Ruang Disk: 500 MB ruang disk kosong
+- Koneksi Internet: Diperlukan untuk data pasar dan update
+
+Persyaratan Perangkat Lunak:
+- Python 3.10 atau lebih baru
+- MetaTrader 5 (diinstal secara terpisah)
+- Visual C++ Redistributable
+
+================================================================================
+8. INSTALASI DAN AKTIVASI
+================================================================================
+
+Instalasi merupakan penerimaan perjanjian lisensi ini. Perangkat Lunak mungkin memerlukan 
+aktivasi dengan kredensial yang valid. Anda setuju untuk memberikan informasi yang akurat 
+selama proses registrasi.
+
+================================================================================
+9. DUKUNGAN DAN UPDATE
+================================================================================
+
+Dukungan dan update dapat disediakan atas kebijakan Pemilik Lisensi. Update mungkin 
+memerlukan penerimaan syarat lisensi yang telah dimodifikasi.
+
+================================================================================
+10. PEMUTUSAN LISENSI
+================================================================================
+
+Lisensi ini berlaku sampai diterminasi. Hak Anda berdasarkan lisensi ini akan diterminasi 
+secara otomatis tanpa pemberitahuan jika Anda gagal mematuhi syarat apapun dari perjanjian ini.
+
+Setelah pemutusan, Anda harus:
+- Menghentikan penggunaan Perangkat Lunak
+- Menghapus semua salinan dari komputer Anda
+- Menghancurkan dokumentasi terkait
+
+================================================================================
+11. HUKUM YANG BERLAKU
+================================================================================
+
+Perjanjian ini diatur oleh dan ditafsirkan menurut hukum Republik Indonesia tanpa memperhatikan 
+prinsip-prinsip hukum kontliknya. Segala bentuk pelanggaran terhadap ketentuan lisensi ini dapat 
+berakibat pada tuntutan hukum sesuai peraturan yang berlaku di Indonesia.
+
+Yurisdiksi eksklusif untuk setiap tuntutan atau arbitrasi akan berada di pengadilan yang berwenang 
+di Indonesia.
+
+================================================================================
+12. PERJANJIAN LENGKAP
+================================================================================
+
+Perjanjian ini merupakan perjanjian lengkap antara Anda dan Pemilik Lisensi mengenai Perangkat 
+Lunak dan menggantikan semua negosiasi, representasi, atau perjanjian sebelumnya.
+
+Jika ada ketentuan dalam perjanjian ini yang dinyatakan tidak sah atau tidak dapat ditegakkan, 
+ketentuan tersebut tidak akan mempengaruhi keabsahan atau keberlakuan ketentuan lainnya.
+
+================================================================================
+13. KONTAK DUKUNGAN
+================================================================================
+
+Untuk pertanyaan atau permohonan izin khusus:
+   Email: support@aventa-ai.com
+   Website: www.aventaai.com
+   Telepon: [Nomor Telepon Support]
+
+================================================================================
+
+DENGAN MENGKLIK "SETUJU LANJUTKAN" DAN MELANJUTKAN INSTALASI, ANDA MENGAKUI BAHWA:
+
+✓ Anda telah membaca dan memahami perjanjian lisensi ini
+✓ Anda menyetujui untuk terikat oleh semua syarat dan ketentuan
+✓ Anda adalah orang yang berhak untuk memasuki perjanjian ini
+✓ Anda memahami risiko trading dan investasi
+✓ Anda bertanggung jawab atas keputusan trading Anda sendiri
+✓ Anda tidak akan menggunakan Perangkat Lunak untuk tujuan ilegal
+
+================================================================================
+
+Terima kasih telah memilih Aventa HFT Pro 2026!
+
+Copyright © 2026 PT. Aventa AI. Semua hak dilindungi.
+Version 7.3.5 | Release Date: January 2026
+
+================================================================================

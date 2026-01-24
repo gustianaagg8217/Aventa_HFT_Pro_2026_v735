@@ -1,0 +1,295 @@
+================================================================================
+AVENTA HFT PRO 2026 - POST-INSTALLATION GUIDE
+================================================================================
+
+INSTALLATION COMPLETED SUCCESSFULLY!
+
+Your Aventa HFT Pro 2026 has been installed on your system.
+
+================================================================================
+QUICK START GUIDE
+================================================================================
+
+1. LAUNCH THE APPLICATION
+   
+   Option A: From Start Menu
+   - Click Start Menu → Aventa HFT Pro 2026 → Aventa HFT Pro 2026
+   
+   Option B: From Desktop Shortcut
+   - Double-click the "Aventa HFT Pro 2026" icon on your desktop
+   
+   Option C: From Command Line
+   - Open Command Prompt or PowerShell
+   - Navigate to installation directory
+   - Run: python Aventa_HFT_Pro_2026_v7_3_5.py
+
+2. INITIAL SETUP
+
+   First Launch:
+   - Application will initialize on first run (may take 30-60 seconds)
+   - Settings will be created in your user directory
+   - Default configuration will be loaded
+
+   MetaTrader 5 Connection:
+   - Go to "Settings" → "MetaTrader 5 Configuration"
+   - Enter your MT5 account credentials
+   - Select your trading server
+   - Click "Connect" to verify connection
+
+3. CONFIGURE TELEGRAM (OPTIONAL)
+
+   To receive trade notifications via Telegram:
+   - Go to "Settings" → "Telegram Bot Configuration"
+   - Get your bot token from Telegram BotFather
+   - Enter your Telegram User ID
+   - Click "Test Connection" to verify
+   - Enable "Send Notifications" toggle
+
+================================================================================
+FILES AND DIRECTORIES
+================================================================================
+
+Installation Directory:
+   Program files: C:\Program Files\Aventa HFT Pro 2026\
+
+Data Directory:
+   User data: C:\Users\[YourUsername]\AppData\Local\Aventa\HFT Pro\
+
+Generated Folders:
+   - Backtest/          → Backtest results and CSV exports
+   - Logs/              → Application logs and error reports
+   - Config/            → Settings and configurations
+   - Reports/           → Trading reports and summaries
+
+Important Files:
+   - config.json        → Main configuration file
+   - trading_log.csv    → Trading history export
+   - backtest_results/  → Historical backtest data
+
+================================================================================
+FIRST TIME USAGE - STEP BY STEP
+================================================================================
+
+Step 1: Connect to MetaTrader 5
+   ✓ Verify MT5 is running and connected to your broker
+   ✓ Configure MT5 connection in Settings
+   ✓ Test connection to confirm
+
+Step 2: Load or Create a Strategy
+   ✓ Select "New Strategy" or import existing configuration
+   ✓ Configure your trading parameters:
+     - Lot size / Risk per trade
+     - Profit target and stop loss
+     - Time filters (trading sessions)
+     - Instruments/Symbols to trade
+   ✓ Configure indicators and conditions
+
+Step 3: Run a Backtest (IMPORTANT!)
+   ✓ Before trading live, always backtest
+   ✓ Go to "Backtest" tab
+   ✓ Select date range
+   ✓ Click "Start Backtest"
+   ✓ Review results and statistics
+
+Step 4: Review Backtest Results
+   ✓ Check Win Rate and Profit Factor
+   ✓ Analyze Drawdown statistics
+   ✓ Export report to Excel for detailed analysis
+   ✓ Verify strategy profitability
+
+Step 5: Configure Risk Management
+   ✓ Set maximum daily loss limit
+   ✓ Configure position sizing rules
+   ✓ Set account risk percentage per trade
+   ✓ Enable protection features (circuit breakers)
+
+Step 6: Start Paper Trading (RECOMMENDED)
+   ✓ Use demo account first to verify live trading
+   ✓ Monitor performance in real-time
+   ✓ Verify Telegram notifications
+   ✓ Confirm position sizing and risk management
+
+Step 7: Switch to Live Trading
+   ✓ Only after successful paper trading validation
+   ✓ Start with small position sizes
+   ✓ Monitor closely during first trades
+   ✓ Gradually increase size as confidence grows
+
+================================================================================
+KEY FEATURES OVERVIEW
+================================================================================
+
+Real-Time Monitoring:
+   • Live market data from MetaTrader 5
+   • Real-time P&L display
+   • Open positions and pending orders
+   • Account balance and equity tracking
+
+Trading Analysis:
+   • Advanced technical indicators
+   • Multiple timeframe analysis
+   • Pattern recognition
+   • Backtest performance metrics
+
+Risk Management:
+   • Position sizing tools
+   • Stop loss and take profit automation
+   • Drawdown monitoring
+   • Account protection features
+
+Reporting:
+   • Trade history export to Excel
+   • Performance statistics
+   • Equity curve analysis
+   • Monthly/weekly P&L reports
+
+Telegram Integration:
+   • Real-time trade notifications
+   • P&L alerts
+   • Daily summary reports
+   • Emergency stop notifications
+
+================================================================================
+IMPORTANT SETTINGS TO REVIEW
+================================================================================
+
+1. Account Protection
+   - Settings → Risk Management
+   - Set daily loss limit
+   - Configure maximum drawdown limit
+   - Enable auto-close on loss threshold
+
+2. Trading Hours
+   - Settings → Trading Sessions
+   - Configure when to trade (avoid low liquidity hours)
+   - Set daylight saving time adjustments
+
+3. Notification Preferences
+   - Settings → Notifications
+   - Choose which events trigger alerts
+   - Configure email/Telegram notifications
+
+4. Data Backup
+   - Settings → Backup & Recovery
+   - Schedule regular backups
+   - Enable auto-backup of critical files
+
+================================================================================
+BACKUP AND RECOVERY
+================================================================================
+
+Backup Important Files:
+   • Backup your configuration regularly: Config/ folder
+   • Export trading records monthly: Reports/ folder
+   • Save custom strategies: Strategy/ folder
+
+Recovery:
+   • If settings are corrupted, delete config.json
+   • Application will create new default config on restart
+   • Contact support for data recovery assistance
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Application Won't Start:
+   ✓ Verify Python 3.10+ is installed
+   ✓ Check that MetaTrader 5 is installed
+   ✓ Run as Administrator
+   ✓ Check Logs/ folder for error messages
+   ✓ Contact support: support@aventaai.com
+
+Can't Connect to MetaTrader 5:
+   ✓ Ensure MT5 is running and logged in
+   ✓ Verify account credentials
+   ✓ Check internet connection
+   ✓ Disable antivirus temporarily
+   ✓ Verify firewall isn't blocking MT5
+
+Telegram Notifications Not Working:
+   ✓ Verify bot token is correct
+   ✓ Check Telegram User ID configuration
+   ✓ Test connection in Settings
+   ✓ Verify internet connection
+   ✓ Check firewall/proxy settings
+
+Backtest Results Seem Incorrect:
+   ✓ Verify MT5 data is complete (download historical data)
+   ✓ Check date range selection
+   ✓ Verify indicator settings
+   ✓ Review trade conditions in logs
+   ✓ Export results to CSV for manual review
+
+================================================================================
+SUPPORT AND RESOURCES
+================================================================================
+
+Official Website:
+   www.aventaai.com
+
+Email Support:
+   support@aventaai.com
+
+Documentation:
+   • Quick Start Guide: Included in Start Menu
+   • Full Documentation: www.aventaai.com/docs
+   • Video Tutorials: www.aventaai.com/tutorials
+   • FAQ: www.aventaai.com/faq
+
+Community:
+   • Forum: www.aventaai.com/forum
+   • Discord: www.aventaai.com/discord
+   • Telegram Community: [Join from app settings]
+
+System Information:
+   • Version: 7.3.5
+   • Release Date: January 2026
+   • Build ID: HFT-PRO-735-20260121
+
+================================================================================
+IMPORTANT REMINDERS
+================================================================================
+
+⚠️ TRADING DISCLAIMER
+   • Past performance does not guarantee future results
+   • Trading involves substantial financial risk
+   • Use only capital you can afford to lose
+   • Start with small position sizes
+   • Use proper stop losses on every trade
+   • Monitor your trades regularly
+
+⚠️ SYSTEM MAINTENANCE
+   • Keep Windows and Python updated
+   • Keep antivirus definitions current
+   • Monitor disk space (keep >1 GB free)
+   • Backup data regularly
+   • Restart application weekly
+
+⚠️ SECURITY
+   • Keep your credentials secure
+   • Don't share bot tokens or API keys
+   • Use strong passwords
+   • Enable 2FA on all trading accounts
+   • Keep MetaTrader 5 password secure
+
+================================================================================
+WELCOME TO AVENTA HFT PRO 2026!
+================================================================================
+
+Thank you for choosing our platform. We're confident that Aventa HFT Pro 2026
+will enhance your trading experience.
+
+For optimal performance:
+✓ Always backtest new strategies thoroughly
+✓ Use risk management tools consistently
+✓ Monitor live trading closely
+✓ Keep software and data updated
+✓ Follow trading discipline and rules
+
+Happy Trading!
+
+Aventa AI Development Team
+Version 7.3.5 | January 2026
+
+For updates and latest version: www.aventaai.com/download
+Contact support anytime: support@aventaai.com

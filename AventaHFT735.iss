@@ -6,7 +6,7 @@
 #define MyAppVersion "7.3.5"
 #define MyAppPublisher "PT Aventa Intelligent Power"
 #define MyAppURL "https://www.pt-aip.com/"
-#define MyAppExeName "Aventa_HFT_Pro_2026_v7_3_5.exe"
+#define MyAppExeName "Aventa_HFT_Pro_2026_v7.3.5.exe"
 #define MyAppAssocName MyAppName + ""
 #define MyAppAssocExt ".exe"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
@@ -14,7 +14,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{9F7F9238-C6D3-41F5-9394-4C8DB9E10696}
+AppId={{DA77E5FF-36BB-407F-B182-D3DB89F10E17}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -22,7 +22,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={autopf}\{#MyAppName}
+DefaultDirName={autopf}\Aventa HFT Pro 2026 v735
 UninstallDisplayIcon={app}\{#MyAppExeName}
 ; "ArchitecturesAllowed=x64compatible" specifies that Setup cannot run
 ; on anything but x64 and Windows 11 on Arm.
@@ -34,17 +34,15 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
-LicenseFile=D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\LICENSE.txt
-InfoBeforeFile=D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\INFO_BEFORE.txt
-InfoAfterFile=D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\INFO_AFTER.txt
+LicenseFile=C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\LICENSE.txt
+InfoBeforeFile=C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\BEFORE_INSTALLATION.txt
+InfoAfterFile=C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\AFTER_INSTALLATION.txt
 ; Remove the following line to run in administrative install mode (install for all users).
 PrivilegesRequired=lowest
-OutputBaseFilename=Aventa_HFT_Pro_2026_v7_3_5_setup
-SetupIconFile=D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\aventa.ico
+OutputBaseFilename=Aventa_HFT_Pro_735_setup
+SetupIconFile=C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\assets\aventa.ico
 SolidCompression=yes
 WizardStyle=modern dark
-SignTool=signtool sign /fd SHA256 /t http://timestamp.digicert.com /n "PT Aventa Intelligent Power" $f
-; Alternative for self-signed: SignTool=signtool sign /fd SHA256 /sha1 3152A250B85E1AB0CDD1804146D80DC2D1EF1984 $f
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -53,11 +51,13 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\aventa.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\LICENSE_en.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\requirements_optimized.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Aventa AI\Project Aventa\Aventa_HFT_Pro_2026_v735\MLTraining\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\LENOVO THINKPAD\Documents\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\requirements.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\README.md"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\assets\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\Backtest\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\configs\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\LENOVO THINKPAD\Documents\Aventa_AI_2026\Aventa_HFT_Pro_2026_v735\MLTraining\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]

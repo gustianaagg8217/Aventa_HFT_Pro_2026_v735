@@ -438,10 +438,13 @@ class CSVToExcelConverter:
                 market_df = pd.DataFrame(market_rows)
                 summary_df = pd.concat([summary_df, market_df], ignore_index=True)
             
-            # Export to Excel - use pandas with proper handling
+            # Export to Excel - use openpyxl directly to avoid pandas issues
             self.add_log("📤 Exporting to Excel...", "INFO")
             try:
-                # Extract trading info from CSV if available
+                from openpyxl import Workbook
+                from openpyxl.styles import Font, PatternFill
+                
+                # Extract trading info
                 symbol = df['Symbol'].iloc[0] if 'Symbol' in df.columns and len(df) > 0 else 'Unknown'
                 period = df['Period'].iloc[0] if 'Period' in df.columns and len(df) > 0 else 'Unknown'
                 company = df['Company'].iloc[0] if 'Company' in df.columns and len(df) > 0 else 'Unknown'
@@ -450,7 +453,11 @@ class CSVToExcelConverter:
                 leverage = getattr(self, 'leverage_var', None)
                 leverage = leverage.get() if leverage else '1:1'
                 
-                # Create workbook data first
+                # Create workbook
+                wb = Workbook()
+                wb.remove(wb.active)
+                
+                # Write BACKTEST_DETAILS sheet
                 backtest_details = pd.DataFrame({
                     "Category": ["Symbol", "Period", "Company", "Currency", "Leverage", "",
                                 "Initial Deposit", "Final Balance", "Net Profit", "Return %", "",
@@ -470,21 +477,38 @@ class CSVToExcelConverter:
                              round(recovery_factor, 2), round(ahpr, 2), "", "N/A", "N/A"]
                 })
                 
-                # Export using ExcelWriter - don't modify visibility during context
-                with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
-                    backtest_details.to_excel(writer, sheet_name="BACKTEST_DETAILS", index=False)
-                    df.to_excel(writer, sheet_name="ALL_TRADES", index=False)
-                    buy_df.to_excel(writer, sheet_name="BUY_TRADES", index=False)
-                    sell_df.to_excel(writer, sheet_name="SELL_TRADES", index=False)
-                    summary_df.to_excel(writer, sheet_name="SUMMARY", index=False)
+                # Helper function to write DataFrame
+                def write_dataframe_to_sheet(wb, df, sheet_name):
+                    ws = wb.create_sheet(sheet_name)
+                    for col_idx, col_name in enumerate(df.columns, 1):
+                        ws.cell(row=1, column=col_idx, value=col_name)
+                    for row_idx, row_data in enumerate(df.values, 2):
+                        for col_idx, value in enumerate(row_data, 1):
+                            ws.cell(row=row_idx, column=col_idx, value=value)
+                    return ws
                 
-                self.add_log(f"  ✓ Exported 5 sheets with {len(df)} total trades", "INFO")
+                # Write all sheets
+                write_dataframe_to_sheet(wb, backtest_details, "BACKTEST_DETAILS")
+                self.add_log(f"  ✓ BACKTEST_DETAILS", "INFO")
+                
+                write_dataframe_to_sheet(wb, df, "ALL_TRADES")
+                self.add_log(f"  ✓ ALL_TRADES ({len(df)} trades)", "INFO")
+                
+                write_dataframe_to_sheet(wb, buy_df, "BUY_TRADES")
+                self.add_log(f"  ✓ BUY_TRADES ({len(buy_df)} trades)", "INFO")
+                
+                write_dataframe_to_sheet(wb, sell_df, "SELL_TRADES")
+                self.add_log(f"  ✓ SELL_TRADES ({len(sell_df)} trades)", "INFO")
+                
+                write_dataframe_to_sheet(wb, summary_df, "SUMMARY")
+                self.add_log(f"  ✓ SUMMARY", "INFO")
+                
+                # Save workbook
+                wb.save(output_file)
+                self.add_log(f"  ✓ Workbook saved", "INFO")
                 
             except Exception as e:
                 self.add_log(f"✗ Export failed: {str(e)}", "ERROR")
-                raise
-            except PermissionError:
-                self.add_log(f"⚠️ Permission denied - Close the file if it's open in Excel and try again", "WARNING")
                 raise
             
             # Add charts sheet if images exist (after initial export)
@@ -829,8 +853,12 @@ class CSVToExcelConverter:
                         except Exception as e:
                             self.add_log(f"  ⚠️ Could not add chart image: {e}", "WARNING")
             
-            # Add sheets
+            # Add sheets (skip BACKTEST_DETAILS in PDF)
             for sheet_name in xls.sheet_names:
+                # Skip BACKTEST_DETAILS from PDF
+                if sheet_name == "BACKTEST_DETAILS":
+                    continue
+                
                 self.add_log(f"  📄 Processing sheet: {sheet_name}", "INFO")
                 
                 # Read sheet data
